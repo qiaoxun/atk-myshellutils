@@ -13,6 +13,8 @@ startPPM(){
 
 	cd "bin"
 	. ./kStart.sh
+	
+	read a
 }
 
 # When we first install a PPM instance, we should convert some conf files to upgrate the instance.
@@ -80,14 +82,11 @@ shutdownLocalOpenGrok() {
 
 # Fix ALM Failed To Login - Failed while trying to locate user in LDAP server(minssing LDAP import settings)
 fixAlmLogin() {
-	
 	echo -e "${On_IYellow}You need to close ie${NC}"
-	
-	echo -e "Are you already closed the ie ${BRed}y/n${NC}?"
-
+	echo -e "Are you already closed the ie browser ${BRed}Y/N${NC}? (Y)"
 	read yesOrNo
 	
-	if [ "$yesOrNo" = "n" ]; then
+	if [ "$yesOrNo" = "N" ] || [ "$yesOrNo" = "n" ]; then
 		echo "Please close the ie first and try again."
 		exit 0
 	fi
@@ -106,10 +105,20 @@ fixAlmLogin() {
 	cp -r ALM-WCF-backup ALM-WCF
 	echo "Copyed ALM-WCF..."	
 	
-	
 	echo "Now, you can try again. Enjoy it!"
+	
+	read a
 }
 
+# start oracle services
+startOracle() {
+	cmd "/C startOracle.bat"
+}
+
+#subN2C
+subN2C() {
+	cmd "/C subN2C.bat"
+}
 
 # begin
 echo "What can I help you?"
@@ -120,6 +129,8 @@ echo -e "${Blue}4 - Kill Java process${NC}"
 echo -e "${Purple}5 - Start up local OpenGrok${NC}"
 echo -e "${Cyan}6 - Shutdown local OpenGrok${NC}"
 echo -e "${White}7 - Fix ALM Failed To Login${NC}"
+echo -e "${White}8 - Start Oracle Services${NC}"
+echo -e "${White}9 - SubN2C${NC}"
 echo -e "${BRed}Input the index of service you needed.${NC}"
 
 read serviceNum
@@ -138,6 +149,10 @@ elif [ "$serviceNum" = "6" ]; then
 	shutdownLocalOpenGrok
 elif [ "$serviceNum" = "7" ]; then
 	fixAlmLogin
+elif [ "$serviceNum" = "8" ]; then
+	startOracle
+elif [ "$serviceNum" = "9" ]; then
+	subN2C
 else
 	echo "Sorry, we don't having anything you wanted.";
 fi
