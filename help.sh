@@ -93,9 +93,11 @@ fixAlmLogin() {
 	
 	cd 'C:/Users/qiaox/AppData/Local/HP'
 	
+	echo "Removing ALM-Client"
 	rm -rf ALM-Client
 	echo "Removed ALM-Client"
 	
+	echo "Removing ALM-WCF"
 	rm -rf ALM-WCF
 	echo "Removed ALM-WCF..."
 	
@@ -105,7 +107,7 @@ fixAlmLogin() {
 	cp -r ALM-WCF-backup ALM-WCF
 	echo "Copyed ALM-WCF..."	
 	
-	echo "Now, you can try again. Enjoy it!"
+	echo "Now, you can try it again. Enjoy!"
 	
 	read a
 }
@@ -115,10 +117,46 @@ startOracle() {
 	cmd "/C startOracle.bat"
 }
 
-#subN2C
+# subN2C
 subN2C() {
 	cmd "/C subN2C.bat"
 }
+
+# config PPM instance debug
+config_PPM_debug() {
+	baseDir="/c/PPMs"
+	forLoopChooseFile $baseDir
+	
+	cd bin
+	# 1. add debug port to kStart.sh file
+	sed -i '/.*UNIX*/i \
+	 SERVER_OPTION="$SERVER_OPTION -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=51234"\
+	  ' kStart.sh
+	
+	# 2. add  com.kintana.core.server.JSP_RECOMPILE_ENABLED=true and
+	# com.kintana.core.server.JSP_COMPILE_EXCLUDE_FOLDERS=pm;pm-2;web;WEB-INF/jsp;web/knta/rpt;web/knta/test;
+	# to server.conf
+	echo "com.kintana.core.server.JSP_RECOMPILE_ENABLED=true" >> ../server.conf
+	echo "com.kintana.core.server.JSP_COMPILE_EXCLUDE_FOLDERS=pm;pm-2;web;WEB-INF/jsp;web/knta/rpt;web/knta/test;" >> ../server.conf
+	
+	. ./kUpdateHtml.sh
+	
+	# 3. Copy findClassSource.jsp to itg.war/web/knta/test/findClassSource.jsp
+	node_list=`ls ../server`
+	for node in $node_list
+	do
+		cd ../server
+		cd $node
+		cp C:/Joey/NewbieGuide/GuideDoc/PPM-Debugging/findClassSource.jsp deploy/itg.war/web/knta/test/findClassSource.jsp
+	done
+	
+	echo "================"
+	echo "done!!!"
+	echo "================"
+	
+	read
+}
+
 
 # begin
 echo "What can I help you?"
@@ -131,6 +169,7 @@ echo -e "${Cyan}6 - Shutdown local OpenGrok${NC}"
 echo -e "${White}7 - Fix ALM Failed To Login${NC}"
 echo -e "${White}8 - Start Oracle Services${NC}"
 echo -e "${White}9 - SubN2C${NC}"
+echo -e "${Yellow}10 - config debug configuration${NC}"
 echo -e "${BRed}Input the index of service you needed.${NC}"
 
 read serviceNum
@@ -153,6 +192,8 @@ elif [ "$serviceNum" = "8" ]; then
 	startOracle
 elif [ "$serviceNum" = "9" ]; then
 	subN2C
+elif [ "$serviceNum" = "10" ]; then
+	config_PPM_debug
 else
 	echo "Sorry, we don't having anything you wanted.";
 fi
