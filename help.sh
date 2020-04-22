@@ -80,7 +80,7 @@ shutdownLocalOpenGrok() {
 }
 
 
-# Fix ALM Failed To Login - Failed while trying to locate user in LDAP server(minssing LDAP import settings)
+# Fix ALM Failed To Login - Failed while trying to locate user in LDAP server(missing LDAP import settings)
 fixAlmLogin() {
 	echo -e "${On_IYellow}You need to close ie${NC}"
 	echo -e "Are you already closed the ie browser ${BRed}Y/N${NC}? (Y)"
@@ -93,19 +93,19 @@ fixAlmLogin() {
 	
 	cd 'C:/Users/qiaox/AppData/Local/HP'
 	
-	echo "Removing ALM-Client"
+	echo "Removing ALM-Client ..."
 	rm -rf ALM-Client
-	echo "Removed ALM-Client"
+	echo "ALM-Client Removed"
 	
-	echo "Removing ALM-WCF"
+	echo "Removing ALM-WCF ..."
 	rm -rf ALM-WCF
-	echo "Removed ALM-WCF..."
+	echo "ALM-WCF Removed"
 	
 	cp -r ALM-Client-backup ALM-Client
-	echo "Copyed ALM-Client..."
+	echo "ALM-Client Copied ..."
 	
 	cp -r ALM-WCF-backup ALM-WCF
-	echo "Copyed ALM-WCF..."	
+	echo "ALM-WCF Copied ..."	
 	
 	echo "Now, you can try it again. Enjoy!"
 	
@@ -151,7 +151,7 @@ config_PPM_debug() {
 	done
 	
 	echo "================"
-	echo "done!!!"
+	echo "Done!!!"
 	echo "================"
 	
 	read
