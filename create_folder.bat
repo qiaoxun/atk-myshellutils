@@ -1,12 +1,11 @@
 @echo off
+
+rem get dir like com.kintina.core...
 if [%1] == [] ( 
 	set /p dir=Please Input Directory:
 ) else (
 	set dir=%1
 )
-
-rem get dir like com.kintina.core...
-
 
 set slash=\
 call set dir=%%dir:.=%slash%%%

@@ -136,6 +136,7 @@ config_PPM_debug() {
 	# 2. add  com.kintana.core.server.JSP_RECOMPILE_ENABLED=true and
 	# com.kintana.core.server.JSP_COMPILE_EXCLUDE_FOLDERS=pm;pm-2;web;WEB-INF/jsp;web/knta/rpt;web/knta/test;
 	# to server.conf
+	echo "" >> ../server.conf
 	echo "com.kintana.core.server.JSP_RECOMPILE_ENABLED=true" >> ../server.conf
 	echo "com.kintana.core.server.JSP_COMPILE_EXCLUDE_FOLDERS=pm;pm-2;web;WEB-INF/jsp;web/knta/rpt;web/knta/test;" >> ../server.conf
 	
